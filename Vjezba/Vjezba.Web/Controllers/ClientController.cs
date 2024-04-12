@@ -5,11 +5,10 @@ namespace Vjezba.Web.Controllers
 {
     public class ClientController : Controller
     {
-        // Ostale akcije...
 
         public IActionResult Index(string query)
         {
-            var clients = MockClientRepository.Instance.All(); // Koristite .ToList() ovdje
+            var clients = MockClientRepository.Instance.All();
 
             if (!string.IsNullOrEmpty(query))
             {
@@ -22,27 +21,24 @@ namespace Vjezba.Web.Controllers
                 );
             }
 
-            // Proslijedi listu klijenata u View
             return View(clients.ToList());
         }
 
         public IActionResult Details(int? id)
         {
-            // Provjerite je li id null ili nije
             if (id == null)
             {
-                return NotFound(); // Vratite NotFound rezultat ako je id null
+                return NotFound();
             }
 
-            // Dohvat klijenta prema ID-u
             Client client = MockClientRepository.Instance.FindByID(id.Value);
 
             if (client == null)
             {
-                return NotFound(); // Vratite NotFound rezultat ako klijent nije pronađen
+                return NotFound();
             }
 
-            return View(client); // Proslijedite klijenta kao model u View
+            return View(client);
         }
 
     }

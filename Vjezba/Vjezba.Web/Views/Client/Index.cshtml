@@ -8,12 +8,19 @@
     U sustavu postoji @(Model?.Count ?? 0) klijenata.
 </div>
 
-<form method="get" action="/Client/Index" class="mb-3">
-    <div class="input-group">
-        <input type="text" class="form-control" placeholder="Pretraži klijente..." name="query">
-        <button type="submit" class="btn btn-primary">Pretraži</button>
+<div class="row mb-3">
+    <div class="col-md-6">
+        <form method="post" action="/Client/Index" class="mb-3">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Pretraži po imenu..." name="queryName">
+                <input type="text" class="form-control" placeholder="Pretraži po adresi..." name="queryAddress">
+                <button type="submit" class="btn btn-primary">Pretraži</button>
+            </div>
+        </form>
     </div>
-</form>
+    <div class="col-md-6">
+    </div>
+</div>
 
 <table class="table table-striped">
     <thead>

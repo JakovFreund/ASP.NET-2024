@@ -10,14 +10,25 @@ namespace Vjezba.Web.Controllers
         {
             var clients = MockClientRepository.Instance.All();
 
-            if (!string.IsNullOrEmpty(query))
+            return View(clients.ToList());
+        }
+
+        [HttpPost]
+        public IActionResult Index(string queryName, string queryAddress)
+        {
+            var clients = MockClientRepository.Instance.All();
+
+            if (!string.IsNullOrEmpty(queryName))
             {
                 clients = clients.Where(c =>
-                    (c.FirstName != null && c.FirstName.Contains(query, StringComparison.OrdinalIgnoreCase)) ||
-                    (c.LastName != null && c.LastName.Contains(query, StringComparison.OrdinalIgnoreCase)) ||
-                    (c.Email != null && c.Email.Contains(query, StringComparison.OrdinalIgnoreCase)) ||
-                    (c.Address != null && c.Address.Contains(query, StringComparison.OrdinalIgnoreCase)) ||
-                    (c.City != null && c.City.Name != null && c.City.Name.Contains(query, StringComparison.OrdinalIgnoreCase))
+                    c.FirstName != null && c.FirstName.Contains(queryName, StringComparison.OrdinalIgnoreCase)
+                );
+            }
+
+            if (!string.IsNullOrEmpty(queryAddress))
+            {
+                clients = clients.Where(c =>
+                    c.Address != null && c.Address.Contains(queryAddress, StringComparison.OrdinalIgnoreCase)
                 );
             }
 

@@ -1,0 +1,24 @@
+﻿@model Vjezba.Web.Mock.Client
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/Client/Index">Klijenti</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@Model.FullName</li>
+    </ol>
+</nav>
+
+<h3>Details</h3>
+<h4>Client</h4>
+@if (Model == null)
+{
+    <p>Klijent nije pronađen.</p>
+}
+else
+{
+    <p>ID: @Model.ID</p>
+    <p>Ime i prezime: @Model.FullName</p>
+    <p>Email: @Model.Email</p>
+    <p>Spol: @Model.Gender</p>
+    <p>Adresa: @Model.Address</p>
+    <p>Grad: @Model.City?.Name</p>
+}

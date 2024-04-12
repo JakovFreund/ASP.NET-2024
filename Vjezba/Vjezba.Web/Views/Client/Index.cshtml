@@ -1,0 +1,46 @@
+﻿@model List<Vjezba.Web.Mock.Client>
+
+@{
+    ViewData["Title"] = "Client List";
+}
+
+<div class="alert alert-primary" role="alert">
+    U sustavu postoji @(Model?.Count ?? 0) klijenata.
+</div>
+
+<!-- Forma za pretragu -->
+<form method="get" action="/Client/Index" class="mb-3">
+    <div class="input-group">
+        <input type="text" class="form-control" placeholder="Pretraži klijente..." name="query">
+        <button type="submit" class="btn btn-primary">Pretraži</button>
+    </div>
+</form>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Ime</th>
+            <th>Prezime</th>
+            <th>Email</th>
+            <th>Adresa</th>
+            <th>Grad</th>
+            <th>Detalji</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            @foreach (var client in Model)
+            {
+                <tr>
+                    <td>@client.FirstName</td>
+                    <td>@client.LastName</td>
+                    <td>@client.Email</td>
+                    <td>@client.Address</td>
+                    <td>@client.City?.Name</td>
+                    <td><a asp-controller="Client" asp-action="Details" asp-route-id="@client.ID">Detalji</a></td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

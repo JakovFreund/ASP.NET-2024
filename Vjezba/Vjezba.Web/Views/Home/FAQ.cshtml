@@ -1,0 +1,15 @@
+﻿@{
+    ViewData["Title"] = "Privacy Policy";
+}
+<h1>@ViewData["Title"]</h1>
+
+@{
+    var selectedQuestion = ViewData["SelectedQuestion"] as int?;
+}
+
+
+<p class="@(selectedQuestion == 1 ? "selected" : "")">Prvo pitanje? Odgovor</p>
+<p class="@(selectedQuestion == 2 ? "selected" : "")">Drugo pitanje? Odgovor</p>
+<p class="@(selectedQuestion == 3 ? "selected" : "")">Trece pitanje? Odgovor</p>
+<p class="@(selectedQuestion == 4 ? "selected" : "")">Cetvrto pitanje? Odgovor</p>
+<p class="@(selectedQuestion == 5 ? "selected" : "")">Peto pitanje? Odgovor</p>

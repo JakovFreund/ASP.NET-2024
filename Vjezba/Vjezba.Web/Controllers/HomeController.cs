@@ -4,10 +4,15 @@ using Vjezba.Web.Models;
 
 namespace Vjezba.Web.Controllers
 {
-    public class HomeController(
-        ILogger<HomeController> _logger) 
-        : Controller
+    public class HomeController : Controller
     {
+        private readonly ILogger<HomeController> _logger;
+
+        public HomeController(ILogger<HomeController> logger)
+        {
+            _logger = logger;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -18,33 +23,44 @@ namespace Vjezba.Web.Controllers
             return View();
         }
 
-        public IActionResult Contact()
+        public IActionResult FAQ(int? selected = null)
         {
-            ViewBag.Message = "Jednostavan način proslijeđivanja poruke iz Controller -> View.";
-            //Kao rezultat se pogled /Views/Home/Contact.cshtml renderira u "pravi" HTML
-            //Primjetiti - View() je poziv funkcije koja uzima cshtml template i pretvara ga u HTML
-            //Zasto bas Contact.cshtml? Jer se akcija zove Contact, te prema konvenciji se "po defaultu" uzima cshtml datoteka u folderu Views/CONTROLLER_NAME/AKCIJA.cshtml
-
-
+            ViewData["SelectedQuestion"] = selected;
             return View();
         }
 
-        /// <summary>
+        public IActionResult Contact()
+        {
+            ViewBag.Message = "Jednostavan način proslijeđivanja poruke iz Controller -> View.";
+            return View();
+        }
+
         /// Ova akcija se poziva kada na formi za kontakt kliknemo "Submit"
         /// URL ove akcije je /Home/SubmitQuery, uz POST zahtjev isključivo - ne može se napraviti GET zahtjev zbog [HttpPost] parametra
-        /// </summary>
-        /// <param name="formData"></param>
-        /// <returns></returns>
         [HttpPost]
         public IActionResult SubmitQuery(IFormCollection formData)
         {
             //Ovdje je potrebno obraditi podatke i pospremiti finalni string u ViewBag
-
-            
-
             //Kao rezultat se pogled /Views/Home/ContactSuccess.cshtml renderira u "pravi" HTML
             //Kao parametar se predaje naziv cshtml datoteke koju treba obraditi (ne koristi se default vrijednost)
             //Trazenu cshtml datoteku je potrebno samostalno dodati u projekt
+
+            // Čitanje vrijednosti iz forme
+            var imePrezime = formData["imePrezime"];
+            var email = formData["email"];
+            var poruka = formData["poruka"];
+            var tipPoruke = formData["tipPoruke"];
+            var primatiNewsletter = formData["newsletter"].Count > 0 ? "obavijestit ćemo vas" : "nećemo vas obavijestiti";
+
+            // Sastavljanje odgovora
+            var odgovor = $"Poštovani {imePrezime} ({email}) zaprimili smo vašu poruku. " +
+                          $"Sadržaj vaše ({tipPoruke}) poruke je: {poruka}. " +
+                          $"Također, {primatiNewsletter} o daljnjim promjenama preko newslettera.";
+
+            // Pohrana odgovora u ViewBag za prikaz u sljedećem pogledu
+            ViewBag.Odgovor = odgovor;
+
+            // Prikazivanje ContactSuccess.cshtml sa sastavljenim odgovorom
             return View("ContactSuccess");
         }
 
